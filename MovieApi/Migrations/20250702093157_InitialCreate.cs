@@ -41,24 +41,24 @@ namespace MovieApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MovieActors",
+                name: "ActorMovie",
                 columns: table => new
                 {
-                    MovieId = table.Column<int>(type: "int", nullable: false),
-                    ActorId = table.Column<int>(type: "int", nullable: false)
+                    ActorsId = table.Column<int>(type: "int", nullable: false),
+                    MoviesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MovieActors", x => new { x.MovieId, x.ActorId });
+                    table.PrimaryKey("PK_ActorMovie", x => new { x.ActorsId, x.MoviesId });
                     table.ForeignKey(
-                        name: "FK_MovieActors_Actors_ActorId",
-                        column: x => x.ActorId,
+                        name: "FK_ActorMovie_Actors_ActorsId",
+                        column: x => x.ActorsId,
                         principalTable: "Actors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MovieActors_Movies_MovieId",
-                        column: x => x.MovieId,
+                        name: "FK_ActorMovie_Movies_MoviesId",
+                        column: x => x.MoviesId,
                         principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -72,7 +72,7 @@ namespace MovieApi.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Synopsis = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Language = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Budget = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Budget = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     MovieId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -109,9 +109,9 @@ namespace MovieApi.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_MovieActors_ActorId",
-                table: "MovieActors",
-                column: "ActorId");
+                name: "IX_ActorMovie_MoviesId",
+                table: "ActorMovie",
+                column: "MoviesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MovieDetails_MovieId",
@@ -129,7 +129,7 @@ namespace MovieApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "MovieActors");
+                name: "ActorMovie");
 
             migrationBuilder.DropTable(
                 name: "MovieDetails");
