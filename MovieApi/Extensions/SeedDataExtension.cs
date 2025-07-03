@@ -11,9 +11,6 @@ namespace MovieApi.Extensions
             using var scope = app.ApplicationServices.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-            // Kör INTE migrationer här om du redan migrerat databasen!
-            // context.Database.Migrate();
-
             if (!context.Movies.Any())
             {
                 var actorFaker = new Faker<Actor>()

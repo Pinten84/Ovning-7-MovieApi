@@ -11,7 +11,7 @@ GO
 BEGIN TRANSACTION;
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20250702093157_InitialCreate'
+    WHERE [MigrationId] = N'20250703094606_Create'
 )
 BEGIN
     CREATE TABLE [Actors] (
@@ -24,7 +24,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20250702093157_InitialCreate'
+    WHERE [MigrationId] = N'20250703094606_Create'
 )
 BEGIN
     CREATE TABLE [Movies] (
@@ -39,7 +39,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20250702093157_InitialCreate'
+    WHERE [MigrationId] = N'20250703094606_Create'
 )
 BEGIN
     CREATE TABLE [ActorMovie] (
@@ -53,7 +53,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20250702093157_InitialCreate'
+    WHERE [MigrationId] = N'20250703094606_Create'
 )
 BEGIN
     CREATE TABLE [MovieDetails] (
@@ -69,7 +69,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20250702093157_InitialCreate'
+    WHERE [MigrationId] = N'20250703094606_Create'
 )
 BEGIN
     CREATE TABLE [Reviews] (
@@ -85,7 +85,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20250702093157_InitialCreate'
+    WHERE [MigrationId] = N'20250703094606_Create'
 )
 BEGIN
     CREATE INDEX [IX_ActorMovie_MoviesId] ON [ActorMovie] ([MoviesId]);
@@ -93,7 +93,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20250702093157_InitialCreate'
+    WHERE [MigrationId] = N'20250703094606_Create'
 )
 BEGIN
     CREATE UNIQUE INDEX [IX_MovieDetails_MovieId] ON [MovieDetails] ([MovieId]);
@@ -101,7 +101,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20250702093157_InitialCreate'
+    WHERE [MigrationId] = N'20250703094606_Create'
 )
 BEGIN
     CREATE INDEX [IX_Reviews_MovieId] ON [Reviews] ([MovieId]);
@@ -109,11 +109,11 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20250702093157_InitialCreate'
+    WHERE [MigrationId] = N'20250703094606_Create'
 )
 BEGIN
     INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-    VALUES (N'20250702093157_InitialCreate', N'9.0.6');
+    VALUES (N'20250703094606_Create', N'9.0.6');
 END;
 
 COMMIT;

@@ -21,9 +21,25 @@ namespace MovieApi.Controllers
 
         // GET: api/movies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MovieDto>>> GetMovies()
+        public async Task<ActionResult<IEnumerable<MovieDto>>> GetMovies(
+            [FromQuery] string? genre,
+            [FromQuery] int? year,
+            [FromQuery] string? actor)
         {
-            var movies = await _context.Movies
+            var query = _context.Movies
+                .Include(m => m.Actors)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(genre))
+                query = query.Where(m => m.Genre == genre);
+
+            if (year.HasValue)
+                query = query.Where(m => m.Year == year.Value);
+
+            if (!string.IsNullOrEmpty(actor))
+                query = query.Where(m => m.Actors.Any(a => a.Name == actor));
+
+            var movies = await query
                 .Select(m => new MovieDto
                 {
                     Id = m.Id,
