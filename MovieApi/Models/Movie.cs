@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace MovieApi.Models
 {
     public class Movie

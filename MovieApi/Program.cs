@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieApi.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MovieApi.Data;
 
 namespace MovieApi
 {
@@ -9,32 +9,30 @@ namespace MovieApi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddDbContext<MovieContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("MovieContext") ?? throw new InvalidOperationException("Connection string 'MovieContext' not found.")));
 
-            // Add services to the container.
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            // Removed MovieApiContext registration since it does not exist or is not needed.
+            // Use only ApplicationDbContext and a single connection string
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                                   ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
+
+            // Seeddata
+            app.SeedData();
 
             app.Run();
         }

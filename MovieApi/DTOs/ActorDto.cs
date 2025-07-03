@@ -1,10 +1,9 @@
-namespace MovieApi.Models
+namespace MovieApi.DTOs
 {
-    public class Actor
+    public class ActorDto
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public int BirthYear { get; set; }
-        public ICollection<Movie> Movies { get; set; } = new List<Movie>();
     }
 }

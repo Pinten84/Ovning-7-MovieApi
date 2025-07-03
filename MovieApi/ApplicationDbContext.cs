@@ -15,6 +15,12 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Explicit plural table names
+        modelBuilder.Entity<Movie>().ToTable("Movies");
+        modelBuilder.Entity<MovieDetails>().ToTable("MovieDetails");
+        modelBuilder.Entity<Review>().ToTable("Reviews");
+        modelBuilder.Entity<Actor>().ToTable("Actors");
+
         // 1:1 Movie <-> MovieDetails
         modelBuilder.Entity<Movie>()
             .HasOne(m => m.MovieDetails)
@@ -27,8 +33,9 @@ public class ApplicationDbContext : DbContext
             .WithOne(r => r.Movie)
             .HasForeignKey(r => r.MovieId);
 
+        // Budget precision
         modelBuilder.Entity<MovieDetails>()
             .Property(md => md.Budget)
-            .HasPrecision(18, 2); // 18 siffror totalt, 2 decimaler
+            .HasPrecision(18, 2);
     }
 }
