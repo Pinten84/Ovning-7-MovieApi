@@ -57,8 +57,10 @@ namespace MovieApi.Controllers
 
         // POST: api/actors
         [HttpPost]
-        public async Task<ActionResult<ActorDto>> PostActor(ActorDto dto)
+        public async Task<ActionResult<ActorDto>> PostActor([FromBody] ActorCreateDto dto)
         {
+            // [ApiController] + valideringsattribut ger automatiskt 400 BadRequest vid fel
+
             var actor = new Actor
             {
                 Name = dto.Name,
@@ -68,13 +70,19 @@ namespace MovieApi.Controllers
             _context.Actors.Add(actor);
             await _context.SaveChangesAsync();
 
-            dto.Id = actor.Id;
-            return CreatedAtAction(nameof(GetActor), new { id = actor.Id }, dto);
+            var result = new ActorDto
+            {
+                Id = actor.Id,
+                Name = actor.Name,
+                BirthYear = actor.BirthYear
+            };
+
+            return CreatedAtAction(nameof(GetActor), new { id = actor.Id }, result);
         }
 
         // PUT: api/actors/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutActor(int id, ActorDto dto)
+        public async Task<IActionResult> PutActor(int id, [FromBody] ActorUpdateDto dto)
         {
             if (id != dto.Id)
                 return BadRequest();
