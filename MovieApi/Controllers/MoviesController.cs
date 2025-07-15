@@ -202,5 +202,32 @@ namespace MovieApi.Controllers
 
             return NoContent();
         }
+
+        // POST: api/movies/{movieId}/actors
+        [HttpPost("{movieId}/actors")]
+        public async Task<IActionResult> AddActorToMovie(int movieId, [FromBody] MovieActorCreateDto dto)
+        {
+            var movie = await _context.Movies.Include(m => m.MovieActors).FirstOrDefaultAsync(m => m.Id == movieId);
+            var actor = await _context.Actors.FindAsync(dto.ActorId);
+
+            if (movie == null || actor == null)
+                return NotFound();
+
+            // Kontrollera om kopplingen redan finns
+            if (movie.MovieActors.Any(ma => ma.ActorId == dto.ActorId))
+                return Conflict("Actor already added to this movie.");
+
+            var movieActor = new MovieActor
+            {
+                MovieId = movieId,
+                ActorId = dto.ActorId,
+                Role = dto.Role
+            };
+
+            _context.MovieActors.Add(movieActor);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetMovieDetails), new { id = movieId }, null);
+        }
     }
 }

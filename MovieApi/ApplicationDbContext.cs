@@ -12,6 +12,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<MovieDetails> MovieDetails { get; set; }
     public DbSet<Review> Reviews { get; set; }
     public DbSet<Actor> Actors { get; set; }
+    public DbSet<MovieActor> MovieActors { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -37,5 +38,18 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<MovieDetails>()
             .Property(md => md.Budget)
             .HasPrecision(18, 2);
+
+        modelBuilder.Entity<MovieActor>()
+            .HasKey(ma => new { ma.MovieId, ma.ActorId }); // Composite key
+
+        modelBuilder.Entity<MovieActor>()
+            .HasOne(ma => ma.Movie)
+            .WithMany(m => m.MovieActors)
+            .HasForeignKey(ma => ma.MovieId);
+
+        modelBuilder.Entity<MovieActor>()
+            .HasOne(ma => ma.Actor)
+            .WithMany(a => a.MovieActors)
+            .HasForeignKey(ma => ma.ActorId);
     }
 }
